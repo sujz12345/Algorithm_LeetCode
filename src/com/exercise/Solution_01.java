@@ -16,10 +16,12 @@ public class Solution_01 {
 //		int[] nums2 =new int[]{1,1};
 //		Utils.printArr(s.intersect(nums1, nums2));
 		
-		String str1 = "1011";
-		String str2 = "101";
+//		String str1 = "1011";
+//		String str2 = "101";
 		
-		System.out.println(s.addBinary2(str1, str2));
+//		System.out.println(s.addBinary2(str1, str2));
+//		System.out.println(s.reverse(1534236469));
+		System.out.println(s.myAtoi("-012a234"));
 	}
 	
 	/** 350 Easy
@@ -181,20 +183,72 @@ public class Solution_01 {
 	 * @return
 	 */
 	public int reverse(int x) {
-        return 0;
+        int t = Math.abs(x);
+        String str = t + "";
+        char[] arr = str.toCharArray();
+        for(int i = 0; i < arr.length/2; ++i){
+        	char m = arr[i];
+        	arr[i] = arr[arr.length-1-i];
+        	arr[arr.length-1-i] = m;
+        }
+        String ret = "";
+        for(int i =0; i < arr.length; ++i){
+        	ret += arr[i];
+        }
+        try{
+        	Integer result  = Integer.parseInt(ret);
+        	if(x < 0){
+        		return 0 - result;
+        	}
+        	return result;
+        }catch(NumberFormatException e){
+        	return 0;
+        }
     }
+	
+	public int reverse2(int x){
+		
+		return 0;
+	}
 	
     /** 8. String to Integer (atoi)(Easy)
      * Implement atoi to convert a string to an integer.
 
 	Hint: Carefully consider all possible input cases. If you want a challenge, please do not see below and ask yourself what are the possible input cases.
-
+	
 	Notes: It is intended for this problem to be specified vaguely (ie, no given input specs). You are responsible to gather all the input requirements up front.
+     * 需要考虑超出整数最大值的情况，因此设置result为double型
      * @param str
      * @return
      */
 	public int myAtoi(String str) {
-        return 0;
+        if(str == null || str.length() < 1)return 0;
+		str = str.trim();
+		char flag = '+';
+		int i = 0;
+		if(str.charAt(0) == '-'){
+			flag = '-';
+			i++;
+		}
+		if(str.charAt(0) == '+'){
+			i++;
+		}
+		double result = 0;
+		while(i < str.length() && str.charAt(i) >= '0' && str.charAt(i) <= '9'){
+			result = result * 10 + (str.charAt(i) - '0');
+			i++;
+		}
+		if(flag == '-'){
+			result = -result;
+		}
+		if(result > Integer.MAX_VALUE){
+			return Integer.MAX_VALUE;
+		}
+		if(result < Integer.MIN_VALUE){
+			return Integer.MIN_VALUE;
+		}
+		return (int)result;
+        
     }
     
 	/** 12 Medium
@@ -207,13 +261,39 @@ public class Solution_01 {
         return null;
     }
 	/** 2 Medium
-	 * You are given two linked lists representing two non-negative numbers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+	 * You are given two linked lists representing two non-negative numbers. 
+	 * The digits are stored in reverse order and each of their nodes contain a single digit. 
+	 * Add the two numbers and return it as a linked list.
 	 * @param l1
 	 * @param l2
 	 * @return
 	 */
 	public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        return null;
+        ListNode retNode = new ListNode(0);
+        ListNode root = retNode;
+        if(l1 == null)return l2;
+        if(l2 == null)return l1;
+        int flag = 0;
+        while(true){
+        	int a = 0;
+        	if(l1 != null){
+        		a = l1.val;
+        	}
+        	int b = 0;
+        	if(l2 != null){
+        		b = l2.val;
+        	}
+        	int result = a + b + flag;
+        	if(result > 10){
+        		flag = 1;
+        		result -= 10;
+        	}
+    		retNode.val = result;
+    		retNode = retNode.next;
+    		l1 = l1.next;
+    		l2 = l2.next;
+        }
+		return null;
     }
 	/**
 	 * 43. Multiply Strings(Medium)
